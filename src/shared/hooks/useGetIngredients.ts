@@ -13,7 +13,7 @@ export type TIngredients = {
 // This function performs the actual API call.
 async function fetchIngredients(): Promise<TIngredients[] | null> {
   const { data } = await axios.get<TIngredients[]>(
-    "http://localhost:42069/ingredients"
+    "http://192.168.1.13:42069/ingredients"
   );
   return data as TIngredients[];
 }

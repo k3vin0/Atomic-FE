@@ -10,7 +10,7 @@ export const RecipesPage: FC<RecipesPageProps> = () => {
   console.log(data);
   const renderedRecipes = useMemo(() => {
     return data?.map((recipe, index) => (
-      <div key={`${recipe.Name}-${index.toString}`}>
+      <div className="bg-black" key={`${recipe.Name}-${index.toString}`}>
         {" "}
         {/* Make sure you use a unique key, ObjectID from your data would be a good candidate */}
         <h2>{recipe.Name}</h2>{" "}
