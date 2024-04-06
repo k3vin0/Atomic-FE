@@ -13,13 +13,8 @@ export const IngredientsPage: FC<IngredientsProps> = () => {
   console.log(data);
 
   return (
-    <div>
-      <div className="w-full">
-        <ATTable apiData={data ?? []} />
-      </div>
-      {/* {data?.map((ingredient) => (
-        <li>{ingredient.Name}</li>
-      ))} */}
+    <div className="mt-3 w-full">
+      <ATTable apiData={data ?? []} />
     </div>
   );
 };

@@ -15,7 +15,7 @@ export const Layout: FC<LayoutProps> = ({
 }) => {
   const Header = () => {
     return (
-      <div className="bg-blue-500 text-white p-4 fixed top-0 left-0 right-0 z-10">
+      <div className="text-white fixed md:ml-48 top-0 left-0 right-0 z-10">
         {header}
       </div>
     );
@@ -23,7 +23,7 @@ export const Layout: FC<LayoutProps> = ({
 
   const Sidebar = () => {
     return (
-      <div className="bg-green-500 h-full p-4 fixed inset-y-0 left-0 overflow-auto z-20 w-48 md:block hidden">
+      <div className="bg-green-500 h-full fixed inset-y-0 left-0 overflow-auto z-20 w-48 md:block hidden">
         {sidebar}
       </div>
     );
@@ -31,14 +31,14 @@ export const Layout: FC<LayoutProps> = ({
 
   const Content = () => {
     return (
-      <div className="h-full w-full text-white mt-14 overflow-auto md:ml-48">
+      <div className="h-full w-full bg-white mt-14 overflow-auto md:ml-48">
         {content}
       </div>
     );
   };
 
   const Footer = () => {
-    return <div className="bg-cyan-500 w-full text-white p-4">{footer}</div>;
+    return <div className="bg-white w-full text-white p-4">{footer}</div>;
   };
   return (
     <div className="w-full h-screen flex flex-col">

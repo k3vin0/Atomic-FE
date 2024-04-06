@@ -3,13 +3,15 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import IngredientsPage from "./Pages/IngredientsPage/IngredientsPage";
 import RecipesPage from "./Pages/RecipesPage/RecipesPage";
+import ATHeader from "./components/ATHeader/ATHeader";
+import Example from "./components/ATSidebar";
 
 const App = () => {
   const LayoutRoute = () => {
     return (
       <Layout
-        header={<div>Header</div>}
-        sidebar={<section>Sidebar</section>}
+        header={<ATHeader />}
+        sidebar={<Example />}
         content={<Outlet />}
         footer={<div>Footer</div>}
       />
