@@ -10,8 +10,6 @@ export type IngredientsProps = {
 export const IngredientsPage: FC<IngredientsProps> = () => {
   const { data } = useGetIngredients();
 
-  console.log(data);
-
   return (
     <div className="mt-3 w-full">
       <ATTable apiData={data ?? []} />

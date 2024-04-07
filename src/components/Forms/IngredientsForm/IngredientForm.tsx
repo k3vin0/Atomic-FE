@@ -1,6 +1,9 @@
 import { FC } from "react";
 import { Formik, Form, Field } from "formik";
-import { IngredientFormSchema } from "./YupValidationSchema";
+import {
+  EditIngredientFormSchema,
+  IngredientFormSchema,
+} from "./YupValidationSchema";
 
 export type IngredientFormValues = {
   ingredientName: string;
@@ -9,9 +12,15 @@ export type IngredientFormValues = {
 
 type IngredientFormProps = {
   onSubmit: (values: IngredientFormValues) => void;
+  actionType: string;
+  prefillData: { name: string | null; calories: number | null };
 };
 
-export const IngredientForm: FC<IngredientFormProps> = ({ onSubmit }) => {
+export const IngredientForm: FC<IngredientFormProps> = ({
+  onSubmit,
+  actionType,
+  prefillData,
+}) => {
   return (
     <div className="grid p-4 grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-3">
       <div className="px-4 sm:px-0">
@@ -25,13 +34,21 @@ export const IngredientForm: FC<IngredientFormProps> = ({ onSubmit }) => {
 
       <Formik
         initialValues={{
-          ingredientName: "",
-          ingredientCalories: "",
+          ingredientName:
+            actionType === "edit" && prefillData.name ? prefillData.name : "",
+          ingredientCalories:
+            actionType === "edit" && prefillData.calories
+              ? prefillData.calories.toString()
+              : "",
         }}
         onSubmit={(values) => {
           onSubmit(values);
         }}
-        validationSchema={IngredientFormSchema}
+        validationSchema={
+          actionType === "edit"
+            ? EditIngredientFormSchema
+            : IngredientFormSchema
+        }
       >
         {({ errors, touched }) => (
           <Form className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">

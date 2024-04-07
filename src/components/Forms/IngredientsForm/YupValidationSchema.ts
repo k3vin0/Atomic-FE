@@ -9,3 +9,13 @@ export const IngredientFormSchema = Yup.object().shape({
     .positive("Calories must be positive")
     .integer("Calories must be an integer"),
 });
+
+export const EditIngredientFormSchema = Yup.object().shape({
+  ingredientName: Yup.string().min(
+    2,
+    "Name is too short - should be 2 chars minimum."
+  ),
+  ingredientCalories: Yup.number()
+    .positive("Calories must be positive")
+    .integer("Calories must be an integer"),
+});

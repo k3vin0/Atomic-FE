@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { Fragment } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
@@ -27,27 +13,10 @@ const navigation = [
   {
     name: "Ingredients",
     href: "/ingredients",
-    // icon: HomeIcon,
     count: "5",
     current: true,
   },
-  { name: "recipies", href: "/recipes", current: false },
-  //   {
-  //     name: "Projects",
-  //     href: "#",
-  //     icon: FolderIcon,
-  //     count: "12",
-  //     current: false,
-  //   },
-  //   {
-  //     name: "Calendar",
-  //     href: "#",
-  //     icon: CalendarIcon,
-  //     count: "20+",
-  //     current: false,
-  //   },
-  //   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  //   { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  { name: "Recipies", href: "/recipes", current: false },
 ];
 const userNavigation = [
   { name: "Your Profile", href: "#" },
@@ -74,7 +43,7 @@ export default function Example() {
       >
         {({ open }) => (
           <>
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="lg:mx-auto max-w-7xl px-4 :px-6 lg:px-8">
               <div className="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
                 <div className="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2">
                   {/* <div className="flex flex-shrink-0 items-center">

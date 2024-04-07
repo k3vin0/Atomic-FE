@@ -16,6 +16,9 @@ import {
   useAddIngredients,
 } from "../../shared/hooks/useAddIngredients";
 import { useQueryClient } from "@tanstack/react-query";
+import { SearchComponet } from "../../Pages/IngredientsPage/components/Search";
+import { useDeleteIngredient } from "../../shared/hooks/useDeleteIngredientByName";
+import { useUpdateIngredient } from "../../shared/hooks/useUpdateIngredient";
 
 export type ATTableProps = {
   apiData: TIngredients[];
@@ -30,17 +33,40 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
     body: "",
   });
   const [actionType, setActionType] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [ingredientName, setIngredientName] = useState<string>("");
+  const [ingredientPrefillName, setIngredientPrefillName] =
+    useState<string>("");
+  const [ingredientCalories, setIngredientCalories] = useState<number | null>(
+    null
+  );
+  const [ingredientID, setIngredientID] = useState<string>("");
   const columnHelper = createColumnHelper<TIngredients>();
 
   const ingredientQuery = useAddIngredients();
+  const { mutate: deleteIngredient } = useDeleteIngredient();
+  const updateMutation = useUpdateIngredient();
 
   const queryClient = useQueryClient();
 
+  const HandleDeleteIngredientByName = () => {
+    deleteIngredient(ingredientName, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["ingredients"] });
+        setIsModalOpen(false);
+      },
+    });
+  };
   const FooterButtonsDelete = () => {
     return (
       <div className="flex flex row gap-4">
-        <button>Cancel</button>
-        <button>Delete</button>
+        <button className="bg-indigo-600">Cancel</button>
+        <button
+          className="bg-indigo-600"
+          onClick={() => HandleDeleteIngredientByName()}
+        >
+          Delete
+        </button>
       </div>
     );
   };
@@ -48,8 +74,8 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
   const FooterButtonsEdit = () => {
     return (
       <div className="flex flex row gap-4">
-        <button>Cancel</button>
-        <button>Edit</button>
+        <button className="bg-indigo-600">Cancel</button>
+        <button className="bg-indigo-600">Edit</button>
       </div>
     );
   };
@@ -59,6 +85,7 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
       ingredientTitle: `Delete ${ingredientName}`,
       body: `Are you sure you want to delete ${ingredientName}?`,
     });
+    setIngredientName(ingredientName);
   };
 
   const handleModalInfoEdit = (ingredientName: string) => {
@@ -75,10 +102,20 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
     console.log(ingredient);
   };
 
-  const handleEdit = (ingredient: TIngredients) => {
+  const handleEdit = (
+    ingredient: Partial<TIngredients & { ObjectID: string }>
+  ) => {
     setActionType("edit");
-    handleModalInfoEdit(ingredient.Name);
-    setIsModalOpen(true);
+    handleModalInfoEdit(ingredient.Name ?? "");
+    setShowForm(true);
+    // setIsModalOpen(true);
+    setIngredientID(ingredient.ObjectID ?? "");
+    if (ingredient.Calories) {
+      setIngredientCalories(parseInt(ingredient.Calories) ?? null);
+    }
+    if (ingredient.Name) {
+      setIngredientPrefillName(ingredient.Name);
+    }
     console.log(ingredient);
   };
   const columns = useMemo(
@@ -133,7 +170,13 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
     [columnHelper]
   );
 
-  const data = useMemo(() => apiData, [apiData]);
+  const data = useMemo(
+    () =>
+      apiData.filter((data) =>
+        data.Name.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    [apiData, searchQuery]
+  );
 
   const table = useReactTable({
     data,
@@ -160,8 +203,31 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
       onSuccess: () => {
         console.log("Ingredient created successfully"),
           queryClient.invalidateQueries({ queryKey: ["ingredients"] });
+        setShowForm(false);
       },
     });
+  };
+
+  const onEdit = (values: IngredientFormValues) => {
+    const payload: Partial<IngredientData> = {};
+    if (values.ingredientName) payload.Name = values.ingredientName;
+    if (values.ingredientCalories)
+      payload.Calories = parseInt(values.ingredientCalories, 10);
+
+    updateMutation.mutate(
+      { id: ingredientID, data: payload },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["ingredients"] });
+          console.log("Item Updated!");
+          setShowForm(false);
+        },
+      }
+    );
+  };
+
+  const onChange = (value: string) => {
+    setSearchQuery(value);
   };
 
   setTimeout(() => {
@@ -171,8 +237,8 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
   return (
     <>
       <div className="bg-white ml-1">
-        <div className=" max-w-7xl p-4 sm:px-6 lg:px-8">
-          <div className="md:flex md:items-center">
+        <div className="max-w-7xl p-4 sm:px-6 lg:px-8">
+          <div className="lg:flex lg:items-center">
             <div className="p-4 sm:flex-auto">
               <h1 className="text-base font-semibold leading-6 text-gray-900">
                 Ingredients
@@ -181,7 +247,7 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
                 A list of all the ingredients to make recipes with.
               </p>
             </div>
-            <div className="mt-4 sm:mt-0 sm:flex-none">
+            <div className="mt-4 ml-4 sm:mt-0 sm:flex-none">
               <button
                 type="button"
                 className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -194,13 +260,16 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
                   }
                 }}
               >
-                Add Ingredients
+                {showForm ? "Show Ingredients" : "Add Ingredients"}
               </button>
             </div>
           </div>
+          <div className="w-6/12">
+            <SearchComponet onChange={(value) => onChange(value)} />
+          </div>
         </div>
         <div className="mt-8 flow-root overflow-hidden">
-          <div className=" max-w-7xl  sm:px-6 lg:px-8">
+          <div className="max-w-7xl  sm:px-6 lg:px-8">
             {!showForm ? (
               <Transition
                 show={test}
@@ -242,7 +311,7 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
                             key={cell.id}
                             className={`${
                               cell.column.id === "delete" ? `hidden` : ""
-                            } p-4 text-sm text-black sm:table-cell`}
+                            } p-4 text-sm text-black md:table-cell`}
                           >
                             {flexRender(
                               cell.column.columnDef.cell,
@@ -256,7 +325,16 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
                 </table>
               </Transition>
             ) : (
-              <IngredientForm onSubmit={(values) => onSubmit(values)} />
+              <IngredientForm
+                onSubmit={(values) =>
+                  actionType === "edit" ? onEdit(values) : onSubmit(values)
+                }
+                actionType={actionType}
+                prefillData={{
+                  name: ingredientPrefillName,
+                  calories: ingredientCalories,
+                }}
+              />
             )}
           </div>
         </div>

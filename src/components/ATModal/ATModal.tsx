@@ -32,7 +32,7 @@ export const ATModal: FC<ATModalProps> = ({
             e.stopPropagation();
             closeModal();
           }}
-          className="absolute top-0 right-0 mt-4 mr-4"
+          className="absolute bg-white top-0 right-0 mt-4 mr-4"
         >
           <span className="text-gray-400 hover:text-gray-600">&times;</span>
         </button>
