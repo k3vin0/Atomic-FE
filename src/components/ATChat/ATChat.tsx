@@ -90,8 +90,6 @@ const Chat: React.FC = () => {
   function formatTimestamp(timestamp: Date): string {
     // Create a new Date object from the timestamp
 
-    console.log(timestamp);
-
     if (!timestamp) {
       return ""; // Return a placeholder or handle it as per your requirements
     }
