@@ -5,6 +5,8 @@ import IngredientsPage from "./Pages/IngredientsPage/IngredientsPage";
 import RecipesPage from "./Pages/RecipesPage/RecipesPage";
 import ATHeader from "./components/ATHeader/ATHeader";
 import Example from "./components/ATSidebar";
+import NewsPage from "./Pages/NewsPage/NewsPage";
+import ChatPage from "./Pages/ChatPage/ChatPage";
 
 const App = () => {
   const LayoutRoute = () => {
@@ -23,6 +25,8 @@ const App = () => {
         <Route path="/" element={<LayoutRoute />}>
           <Route path="/ingredients" element={<IngredientsPage />} />
           <Route path="/recipes" element={<RecipesPage />} />
+          <Route path="/news" element={<NewsPage />} />
+          <Route path="/chat" element={<ChatPage />} />
           {/* More child routes can be added here */}
         </Route>
         {/* More parent routes can be added here */}

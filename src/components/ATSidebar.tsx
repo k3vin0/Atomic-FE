@@ -1,11 +1,20 @@
 import {
   DocumentTextIcon,
   ShoppingCartIcon,
+  NewspaperIcon,
+  ChatBubbleBottomCenterTextIcon,
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const navigation = [
+  {
+    id: "news",
+    name: "News",
+    href: "/news",
+    icon: NewspaperIcon,
+    current: false,
+  },
   {
     id: "ingredients",
     name: "Ingredients",
@@ -19,6 +28,13 @@ const navigation = [
     name: "Recipes",
     href: "/recipes",
     icon: DocumentTextIcon,
+    current: false,
+  },
+  {
+    id: "chat",
+    name: "Chat",
+    href: "/chat",
+    icon: ChatBubbleBottomCenterTextIcon,
     current: false,
   },
 ];
