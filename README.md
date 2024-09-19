@@ -1,3 +1,7 @@
+# Frontend for a personal management application
+
+This is the frontend I'm putting together for my application to help me organize my day-to-day life and activities. It uses a REST API written in Golang (Go) you can find it here [https://github.com/k3vin0/Unified-Backend] I work on this in my free time :)
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
