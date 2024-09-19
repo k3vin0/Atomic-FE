@@ -12,7 +12,7 @@ async function addIngredients(
   newIngredientData: IngredientData[]
 ): Promise<IngredientData[]> {
   const { data } = await axios.post<IngredientData[]>(
-    "http://192.168.1.6:42069/ingredients",
+    "http://192.168.1.27:42069/ingredients",
     newIngredientData
   );
   return data;

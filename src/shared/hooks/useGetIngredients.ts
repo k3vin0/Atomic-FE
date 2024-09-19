@@ -10,11 +10,10 @@ export type TIngredients = {
   Calories: string;
 };
 
+const backendUrl = "http://192.168.1.27:42069/ingredients";
 // This function performs the actual API call.
 async function fetchIngredients(): Promise<TIngredients[] | null> {
-  const { data } = await axios.get<TIngredients[]>(
-    "http://192.168.1.6:42069/ingredients"
-  );
+  const { data } = await axios.get<TIngredients[]>(backendUrl);
   return data as TIngredients[];
 }
 

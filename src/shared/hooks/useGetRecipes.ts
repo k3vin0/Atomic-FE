@@ -17,7 +17,7 @@ type TIngredients = {
 // This function performs the actual API call.
 async function fetchRecipes(): Promise<TRecipes[] | null> {
   const { data } = await axios.get<TRecipes[]>(
-    "http://192.168.1.6:42069/recipes"
+    "http://192.168.1.27:42069/recipes"
   );
   return data as TRecipes[];
 }

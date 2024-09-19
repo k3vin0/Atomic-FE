@@ -46,7 +46,7 @@ const Chat: React.FC = () => {
     let ws: WebSocket;
     const userId = getSessionId();
     function connect() {
-      ws = new WebSocket(`ws://192.168.1.6:42069/ws?userId=${userId}`);
+      ws = new WebSocket(`ws://192.168.1.10:42069/ws?userId=${userId}`);
 
       ws.onopen = () => console.log("WebSocket connected");
       ws.onmessage = (event) => {
