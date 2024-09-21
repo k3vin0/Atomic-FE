@@ -16,6 +16,13 @@ const navigation = [
     current: false,
   },
   {
+    id: "todo",
+    name: "To Do's",
+    href: "/to-do",
+    icon: NewspaperIcon,
+    current: false,
+  },
+  {
     id: "ingredients",
     name: "Ingredients",
     href: "/ingredients",
@@ -48,7 +55,7 @@ function classNames(...classes: (string | false | null | undefined)[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
+export default function Sidebar() {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState<string>(navigation[0].id);
 
