@@ -59,7 +59,7 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
   };
   const FooterButtonsDelete = () => {
     return (
-      <div className="flex flex row gap-4">
+      <div className="flex row gap-4">
         <button className="bg-indigo-600">Cancel</button>
         <button
           className="bg-indigo-600"
@@ -73,7 +73,7 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
 
   const FooterButtonsEdit = () => {
     return (
-      <div className="flex flex row gap-4">
+      <div className="flex row gap-4">
         <button className="bg-indigo-600">Cancel</button>
         <button className="bg-indigo-600">Edit</button>
       </div>
