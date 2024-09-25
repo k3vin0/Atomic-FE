@@ -1,17 +1,44 @@
 name: Deploy Frontend To GCP
 
 steps:
-  # Install
-  - name: gcr.io/cloud-builders/npm
+  # Install dependencies
+  - name: "gcr.io/cloud-builders/npm"
     args: ["install"]
-  # Test
-  - name: gcr.io/cloud-builders/npm
+
+  # Run tests
+  - name: "gcr.io/cloud-builders/npm"
     args: ["run", "test"]
-  # Build
-  - name: gcr.io/cloud-builders/npm
+
+  # Build the frontend
+  - name: "gcr.io/cloud-builders/npm"
     args: ["run", "build"]
-  # Deploy
-  - name: gcr.io/$PROJECT_ID/atomic-ui
-    args: ["deploy"]
+
+  # Build and tag the Docker image using the Dockerfile in the root directory
+  - name: "gcr.io/cloud-builders/docker"
+    args: [
+        "build",
+        "-t",
+        "gcr.io/$PROJECT_ID/atomic-ui:latest",
+        ".", # Specifies the context as the root directory where your Dockerfile is located
+      ]
+
+  # Push the Docker image to Google Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/atomic-ui:latest"]
+
+  # Deploy to the existing Cloud Run service 'atomic-ui' using the new image
+  - name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        gcloud run deploy atomic-ui \
+          --image gcr.io/$PROJECT_ID/atomic-ui:latest \
+          --platform managed \
+          --region us-central1 \
+          --allow-unauthenticated \
+          --project $PROJECT_ID
+
+# Specify build options
 options:
   logging: CLOUD_LOGGING_ONLY
