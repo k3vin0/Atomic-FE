@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { ToDoInformation } from "../../../shared/types/types";
 import { Urgency } from "../../../shared/types/enumTypes";
 
