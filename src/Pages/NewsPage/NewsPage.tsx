@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import { FC, useMemo } from "react";
 import { useGetBusinessNews } from "../../shared/hooks/useGetBusinessNews";
 
 export type NewsPageProps = {
