@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import {
   createColumnHelper,
   useReactTable,
@@ -80,44 +80,61 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
     );
   };
 
-  const handleModalInfoDelete = (ingredientName: string) => {
-    setModalInfo({
-      ingredientTitle: `Delete ${ingredientName}`,
-      body: `Are you sure you want to delete ${ingredientName}?`,
-    });
-    setIngredientName(ingredientName);
-  };
+  const handleModalInfoDelete = useCallback(
+    (ingredientName: string) => {
+      setModalInfo({
+        ingredientTitle: `Delete ${ingredientName}`,
+        body: `Are you sure you want to delete ${ingredientName}?`,
+      });
+      setIngredientName(ingredientName);
+    },
+    [setModalInfo, setIngredientName]
+  );
 
-  const handleModalInfoEdit = (ingredientName: string) => {
-    setModalInfo({
-      ingredientTitle: `Edit ${ingredientName}`,
-      body: `Edit ${ingredientName}?`,
-    });
-  };
+  const handleModalInfoEdit = useCallback(
+    (ingredientName: string) => {
+      setModalInfo({
+        ingredientTitle: `Edit ${ingredientName}`,
+        body: `Edit ${ingredientName}?`,
+      });
+    },
+    [setModalInfo]
+  );
 
-  const handleDelete = (ingredient: TIngredients) => {
-    setActionType("delete");
-    handleModalInfoDelete(ingredient.Name);
-    setIsModalOpen(true);
-    console.log(ingredient);
-  };
+  const handleDelete = useCallback(
+    (ingredient: TIngredients) => {
+      setActionType("delete");
+      handleModalInfoDelete(ingredient.Name);
+      setIsModalOpen(true);
+      console.log(ingredient);
+    },
+    [setActionType, handleModalInfoDelete, setIsModalOpen]
+  );
 
-  const handleEdit = (
-    ingredient: Partial<TIngredients & { ObjectID: string }>
-  ) => {
-    setActionType("edit");
-    handleModalInfoEdit(ingredient.Name ?? "");
-    setShowForm(true);
-    // setIsModalOpen(true);
-    setIngredientID(ingredient.ObjectID ?? "");
-    if (ingredient.Calories) {
-      setIngredientCalories(parseInt(ingredient.Calories) ?? null);
-    }
-    if (ingredient.Name) {
-      setIngredientPrefillName(ingredient.Name);
-    }
-    console.log(ingredient);
-  };
+  const handleEdit = useCallback(
+    (ingredient: Partial<TIngredients & { ObjectID: string }>) => {
+      setActionType("edit");
+      handleModalInfoEdit(ingredient.Name ?? "");
+      setShowForm(true);
+      // setIsModalOpen(true);
+      setIngredientID(ingredient.ObjectID ?? "");
+      if (ingredient.Calories) {
+        setIngredientCalories(parseInt(ingredient.Calories) ?? null);
+      }
+      if (ingredient.Name) {
+        setIngredientPrefillName(ingredient.Name);
+      }
+      console.log(ingredient);
+    },
+    [
+      setActionType,
+      handleModalInfoEdit,
+      setShowForm,
+      setIngredientID,
+      setIngredientCalories,
+      setIngredientPrefillName,
+    ]
+  );
   const columns = useMemo(
     () => [
       columnHelper.accessor("Name", {
@@ -167,7 +184,7 @@ export const ATTable: FC<ATTableProps> = ({ apiData }) => {
         ),
       }),
     ],
-    [columnHelper]
+    [columnHelper, handleDelete, handleEdit]
   );
 
   const data = useMemo(

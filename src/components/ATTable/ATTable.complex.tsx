@@ -100,46 +100,5 @@ export default function Example() {
         </div>
       </div>
     </div>
-
-     {/* <div className="w-full overflow-x-auto bg-white shadow-md">
-        <table className="min-w-full leading-normal">
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr
-                key={headerGroup.id}
-                className="text-left text-black border-gray-200 bg-gray-100"
-              >
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="md:px-5 py-3 border-gray-200 bg-gray-100 text-xs font-semibold text-black-600 uppercase tracking-wider"
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="hover:bg-slate-200">
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="md:px-5 py-2 border-gray-200 text-black text-sm"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div> */}
   );
 }
