@@ -6,7 +6,7 @@ steps:
     args: ["install"]
   # Test
   - name: gcr.io/cloud-builders/npm
-    args: ["run", "test:unit"]
+    args: ["run", "test"]
   # Build
   - name: gcr.io/cloud-builders/npm
     args: ["run", "build"]
