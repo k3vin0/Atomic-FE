@@ -11,5 +11,5 @@ steps:
   - name: gcr.io/cloud-builders/npm
     args: ["run", "build"]
   # Deploy
-  - name: gcr.io/$PROJECT_ID/$SERVICE_NAME
+  - name: gcr.io/$PROJECT_ID/atomic-ui
     args: ["deploy"]
